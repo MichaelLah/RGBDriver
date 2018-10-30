@@ -94,7 +94,7 @@ def colorLeft(strip, color, waitMs = 50):
     for q in range(3):
         for i in range(LED_TOP_MIDDLE,LED_COUNT+ LED_BOTTOM_MIDDLE, 3):
             if(i >= LED_COUNT):
-                if(i + q - LED_COUNT <= LED_BOTTOM_MIDDLE):
+                if(i + q - LED_COUNT < LED_BOTTOM_MIDDLE):
                     strip.setPixelColor(i+q-LED_COUNT, color)
             else:
                 strip.setPixelColor(i+q, color)
@@ -106,12 +106,47 @@ def colorLeft(strip, color, waitMs = 50):
                     strip.setPixelColor(i+q-LED_COUNT, 0)
             else:
                 strip.setPixelColor(i+q, 0)
-        
-# def colorRight(strip, color, waitMs = 50):
-#     for q in range(3):
-#         for i in range         
 
 
+def colorRight(strip, color, waitMs = 50):
+    for q in range(3):
+        for i in range(LED_TOP_MIDDLE, LED_BOTTOM_MIDDLE, -3):
+            strip.setPixelColor(i - q, color)
+        strip.show()
+        time.sleep(waitMs/1000.0)
+        for i in range(LED_TOP_MIDDLE, LED_BOTTOM_MIDDLE, -3):
+            strip.setPixelColor(i - q, 0)
+
+
+def rgb(r, g, b):
+    return Color(b, r, g)
+
+
+def split(strip, color, waitMs = 50):
+    for q in range(3):
+        #color left side
+        for i in range(LED_TOP_MIDDLE,LED_COUNT+ LED_BOTTOM_MIDDLE, 3):
+            if(i >= LED_COUNT):
+                if(i + q - LED_COUNT < LED_BOTTOM_MIDDLE):
+                    strip.setPixelColor(i+q-LED_COUNT, color)
+            else:
+                strip.setPixelColor(i+q, color)
+        #color ritght side
+        for i in range(LED_TOP_MIDDLE, LED_BOTTOM_MIDDLE, -3):
+            strip.setPixelColor(i - q, color)
+        strip.show()
+        time.sleep(waitMs/1000.0)
+
+        #blackout left side
+        for i in range(LED_TOP_MIDDLE,LED_COUNT+ LED_BOTTOM_MIDDLE, 3):
+            if(i >= LED_COUNT):
+                if(i + q - LED_COUNT <= LED_BOTTOM_MIDDLE):
+                    strip.setPixelColor(i+q-LED_COUNT, 0)
+            else:
+                strip.setPixelColor(i+q, 0)
+        #blackout right side
+        for i in range(LED_TOP_MIDDLE, LED_BOTTOM_MIDDLE, -3):
+            strip.setPixelColor(i - q, 0)
 
 # Main program logic follows:
 
@@ -132,8 +167,8 @@ if __name__ == '__main__':
     try:
         colorWipe(strip, Color(0,0,0), 10)
         while True:
-           colorLeft(strip, Color(0,255,255), 100)
-        # strip.show()
+            # BRG
+            split(strip, rgb(75,0,130), 100)
     except KeyboardInterrupt:
         if args.clear:
             colorWipe(strip, Color(0,0,0), 10)
