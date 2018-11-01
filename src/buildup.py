@@ -122,18 +122,25 @@ def rgb(r, g, b):
     return Color(b, r, g)
 
 
-def split(strip, color, waitMs = 50):
+from flask import Flask, render_template
+
+from flask_ask import Ask, statement, question, session
+
+def spooky():
+    split(strip, rgb(255,30,0), rgb(255,30,0), rgb(75,0,130), 100,)
+
+def split(strip, color, leftColor, rightColor, waitMs = 50):
     for q in range(3):
         #color left side
         for i in range(LED_TOP_MIDDLE,LED_COUNT+ LED_BOTTOM_MIDDLE, 3):
             if(i >= LED_COUNT):
                 if(i + q - LED_COUNT < LED_BOTTOM_MIDDLE):
-                    strip.setPixelColor(i+q-LED_COUNT, color)
+                    strip.setPixelColor(i+q-LED_COUNT, leftColor)
             else:
-                strip.setPixelColor(i+q, color)
+                strip.setPixelColor(i+q, leftColor)
         #color ritght side
         for i in range(LED_TOP_MIDDLE, LED_BOTTOM_MIDDLE, -3):
-            strip.setPixelColor(i - q, color)
+            strip.setPixelColor(i - q, rightColor)
         strip.show()
         time.sleep(waitMs/1000.0)
 
@@ -168,7 +175,7 @@ if __name__ == '__main__':
         colorWipe(strip, Color(0,0,0), 10)
         while True:
             # BRG
-            split(strip, rgb(75,0,130), 100)
+            split(strip, rgb(255,30,0), rgb(255,30,0), rgb(75,0,130), 100,)
     except KeyboardInterrupt:
         if args.clear:
             colorWipe(strip, Color(0,0,0), 10)
