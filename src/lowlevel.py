@@ -1,5 +1,4 @@
 # Example of low-level Python wrapper for rpi_ws281x library.
-# Author: Tony DiCola (tony@tonydicola.com), Jeremy Garff (jer@jers.net)
 #
 # This is an example of how to use the SWIG-generated _rpi_ws281x module.
 # You probably don't want to use this unless you are building your own library,
