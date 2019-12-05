@@ -1,4 +1,3 @@
-# Based on NeoPixel library and strandtest example by Tony DiCola (tony@tonydicola.com)
 # To be used with a 12x1 NeoPixel LED stripe.
 # Place the LEDs in a circle an watch the time go by ...
 # red = hours
