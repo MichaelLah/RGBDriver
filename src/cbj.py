@@ -174,14 +174,8 @@ if __name__ == '__main__':
     try:
         colorWipe(strip, Color(0,0,0), 10)
         while True:
-            # BRG
-            # split(strip, rgb(255,0,0), rgb(128,128,128), 100,)
-            #go bucks
-
-
             #CBJ
             split(strip, rgb(0,38,84), rgb(255,0,0), 100,)
-            # split(strip, rgb(9,30,0), rgb(0,0,255), rgb(128,128,128), 100,)
     except KeyboardInterrupt:
         if args.clear:
             colorWipe(strip, Color(0,0,0), 10)

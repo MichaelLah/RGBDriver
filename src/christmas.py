@@ -8,7 +8,7 @@
 import time
 from neopixel import *
 import argparse
-
+import math
 # LED strip configuration:
 LED_COUNT      = 69     # Number of LED pixels.
 LED_TOP_MIDDLE = 39     # Middle pixel at top middle of strand
@@ -121,7 +121,6 @@ def colorRight(strip, color, waitMs = 50):
 def rgb(r, g, b):
     return Color(b, r, g)
 
-
 from flask import Flask, render_template
 
 from flask_ask import Ask, statement, question, session
@@ -129,7 +128,7 @@ from flask_ask import Ask, statement, question, session
 def spooky():
     split(strip, rgb(255,30,0), rgb(255,30,0), rgb(75,0,130), 100,)
 
-def split(strip, leftColor, rightColor, waitMs = 50):
+def split(strip, color, leftColor, rightColor, waitMs = 50):
     for q in range(3):
         #color left side
         for i in range(LED_TOP_MIDDLE,LED_COUNT+ LED_BOTTOM_MIDDLE, 3):
@@ -154,6 +153,19 @@ def split(strip, leftColor, rightColor, waitMs = 50):
         #blackout right side
         for i in range(LED_TOP_MIDDLE, LED_BOTTOM_MIDDLE, -3):
             strip.setPixelColor(i - q, 0)
+#def threeSpin(strip, colorOne, colorTwo, colorThree):
+def multiSpin(strip, colors, delay=50):
+    part_length = int(math.floor(LED_COUNT/(len(colors))))
+    remainder = LED_COUNT - part_length
+    currentSegment = 1
+    currentLight = 0
+    for color in colors:
+        for i in range(1, part_length):
+            strip.setPixelColor(currentLight + i, rgb(part_length/i, part_length/i, part_length/i))
+        currentLight += part_length
+
+
+
 
 # Main program logic follows:
 
@@ -173,15 +185,10 @@ if __name__ == '__main__':
         print('Use "-c" argument to clear LEDs on exit')
     try:
         colorWipe(strip, Color(0,0,0), 10)
+        cols = [rgb(255,0,0), rgb(0,255,0)]
         while True:
             # BRG
-            # split(strip, rgb(255,0,0), rgb(128,128,128), 100,)
-            #go bucks
-
-
-            #CBJ
-            split(strip, rgb(0,38,84), rgb(255,0,0), 100,)
-            # split(strip, rgb(9,30,0), rgb(0,0,255), rgb(128,128,128), 100,)
+            multiSpin(strip, cols)
     except KeyboardInterrupt:
         if args.clear:
             colorWipe(strip, Color(0,0,0), 10)
